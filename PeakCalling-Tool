@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
+dir_scripts="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" 
+
+Usage(){
+	echo "usage:"
+	echo "	PeakCalling-Tool [command]"
+	echo ""
+	echo "Available commands:"
+	echo "	init"
+	echo "	help"
+	echo "	version"
+	echo ""
+}
+
+if [ "$1" == "version" ]
+then
+	echo "PeakCalling-Tool v0.1" 
+elif [ "$1" == "init" ]
+then
+	# See Gordon Davisson comment: http://stackoverflow.com/questions/9057387/process-all-arguments-but-first
+	$dir_scripts/Commands/init $dir_scripts ${@:2}
+else
+	Usage
+fi

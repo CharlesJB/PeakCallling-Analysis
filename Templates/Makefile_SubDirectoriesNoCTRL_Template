@@ -1,0 +1,22 @@
+SCRIPTS_DIR=__SCRIPTS_DIR__
+BASE_TREATMENT=__TREATMENT_BASE__
+BASE_RESULT=$(BASE_TREATMENT)
+
+DIR_RAW_DATA=__RAW_DATA_DIR__
+DIR_TREATMENT=treatment
+DIR_PEAK_CALLING=peaks-__PEAK_CALLER__
+
+TREATMENT=$(DIR_TREATMENT)/$(BASE_TREATMENT).bam
+
+$(shell mkdir -p $(DIR_PEAK_CALLING))
+
+# Peaks trimming
+.PHONY: all
+all: $(DIR_PEAK_CALLING)/$(BASE_RESULT)_peaks.bed
+
+$(DIR_PEAK_CALLING)/$(BASE_RESULT)_peaks.bed: $(TREATMENT)
+	$(SCRIPTS_DIR)/Utility/launch___PEAK_CALLER___analysis.sh $^ $(DIR_PEAK_CALLING)
+
+# Link data file in current directory 
+$(TREATMENT): ../$(DIR_RAW_DATA)/$(BASE_TREATMENT).bam
+	ln -s ../$< $(DIR_TREATMENT)/$(BASE_TREATMENT).bam
