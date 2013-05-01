@@ -18,7 +18,7 @@ $(shell mkdir -p $(DIR_PEAK_CALLING))
 all: $(DIR_PEAK_CALLING)/$(BASE_RESULT)_peaks.bed
 
 $(DIR_PEAK_CALLING)/$(BASE_RESULT)_peaks.bed: $(TREATMENT) $(CONTROL)
-	$(SCRIPTS_DIR)/Utility/launch___PEAK_CALLER___analysis.sh $^ $(DIR_PEAK_CALLING)
+	$(SCRIPTS_DIR)/Utility/launch___PEAK_CALLER___analysis.sh $^ $(DIR_PEAK_CALLING) __PEAK_CALLER_OPTIONS__
 
 # Link data file in current directory 
 $(TREATMENT): ../$(DIR_RAW_DATA)/$(BASE_TREATMENT).bam

@@ -3,7 +3,7 @@ VERSION=0.1
 
 Usage(){
 	echo "Usage:"
-	echo "	PeakCalling-Tool init [peak-caller]"
+	echo "	PeakCalling-Tool init [peak-caller] [peak-caller_options]"
 	echo ""
 	echo "Available peak callers:"
 	echo "	macs2 (default)"
@@ -51,6 +51,14 @@ then
 fi
 ValidatePeakCaller $peak_caller
 
+options=""
+for i in $(seq 3 $#)
+do
+	toEval="options+=\" \"\$$i"
+	eval $toEval
+done
+#echo options:$options
+
 # A config file will is needed to tell the init script which files should be analyzed
 # and which control file should be used with wach treatment file.
 config_file=config.txt
@@ -82,6 +90,7 @@ do
 		toEval+="| sed \"s/__TREATMENT_BASE__/$base_treatment/g\" "
 		toEval+="| sed \"s/__RAW_DATA_DIR__/$sed_raw_data_dir/g\" "
 		toEval+="| sed \"s/__PEAK_CALLER__/$peak_caller/g\" "
+		toEval+="| sed \"s/__PEAK_CALLER_OPTIONS__/$options/g\" "
 		toEval+="> $base_treatment/Makefile"
 		eval $toEval
 
@@ -100,6 +109,7 @@ do
 		toEval+="| sed \"s/__RAW_DATA_DIR__/$sed_raw_data_dir/g\" "
 		toEval+="| sed \"s/__PEAK_CALLER__/$peak_caller/g\" "
 		toEval+="| sed \"s/__CONTROL_BASE__/$base_control/g\" "
+		toEval+="| sed \"s/__PEAK_CALLER_OPTIONS__/$options/g\" "
 		toEval+="> $base_treatment/Makefile"
 		eval $toEval
 	fi
