@@ -106,6 +106,7 @@ do
 
 	# Add current file to main directory's Makefile
 	echo SUBDIRS+=$base_treatment  >> Makefile
+	echo BASE_BED+=$base_treatment"_peaks.bed" >> Makefile
 
 done < $config_file
 

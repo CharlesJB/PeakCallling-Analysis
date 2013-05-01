@@ -1,8 +1,15 @@
 # Thanks to Galik at: http://www.cplusplus.com/forum/unices/28931/
+DIR_BED=peaks-bed
+TARGET_BED=$(addprefix $(DIR_BED)/, $(BASE_BED))
 
-all: $(SUBDIRS)
+$(shell mkdir -p $(DIR_BED))
 
+.PHONY: all
+all: $(SUBDIRS) $(TARGET_BED)
+
+.PHONY: $(SUBDIRS)
 $(SUBDIRS):
 	$(MAKE) -C $@
 
-.PHONY: $(SUBDIRS)
+$(DIR_BED)/%_peaks.bed: %/peaks-macs2
+	ln -fs ../$</$(notdir $@) $@
