@@ -19,11 +19,12 @@ if (length(argv) == 2) {
 	pics <- PICS(seg)
 
 	# Save the results
+	library(rtracklayer)
 	print("Saving results")
 	myFilter<-list(score=c(2,Inf),delta=c(50,300),se=c(0,50),sigmaSqF=c(0,22500),sigmaSqR=c(0,22500))
 	rdBed<-makeRangedDataOutput(pics,type="bed",filter=c(myFilter,list(score=c(1,Inf))))
-	bed <- paste(prefix, "_peaks.bed", sep="")
-	export(rdbed, bedName)
+	bedName <- paste(prefix, "_peaks.bed", sep="")
+	export(rdBed, bedName)
 
 } else {
 	writeLines("Usage: ")

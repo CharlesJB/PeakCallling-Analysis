@@ -19,14 +19,15 @@ if (length(argv) == 3) {
 	print("Starting segmentation of the data...")
 	seg<-segmentPICS(dataIP, dataC=dataCont, minReads=1)
 	print("Doing the actual PICS analysis...")
-	pics <- PICS(seg)
+	pics <- PICS(seg, nCores=12)
 
 	# Save the results
+	library(rtracklayer)
 	print("Saving results")
 	myFilter<-list(score=c(2,Inf),delta=c(50,300),se=c(0,50),sigmaSqF=c(0,22500),sigmaSqR=c(0,22500))
 	rdBed<-makeRangedDataOutput(pics,type="bed",filter=c(myFilter,list(score=c(1,Inf))))
-	bed <- paste(prefix, "_peaks.bed", sep="")
-	export(rdbed, bedName)
+	bedName <- paste(prefix, "_peaks.bed", sep="")
+	export(rdBed, bedName)
 
 } else {
 	writeLines("Usage: ")
